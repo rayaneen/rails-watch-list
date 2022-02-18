@@ -7,8 +7,11 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 require "json"
 require "open-uri"
-require "byebug"
 
+puts "Cleaning the DB"
+Movie.destroy_all
+puts "DB Cleaned!"
+puts "Creating Movies!"
 url = "http://tmdb.lewagon.com/movie/top_rated"
 movie_serialized = URI.open(url).read
 movies = JSON.parse(movie_serialized)
@@ -21,4 +24,6 @@ movies['results'].each do |movie|
     rating: movie['vote_average']
   )
   new_movie.save
+  puts "Movie #{new_movie.title} created!"
 end
+puts "Job's done!"
